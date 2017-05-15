@@ -144,7 +144,7 @@ public class MappingWorker extends SwingWorker<Boolean, Void> {
     //make map return message
     private String MakeMap(File fpath){
         
-        int i, j, k, count;
+        int i, j, k;
         
         //initiate grabber
         grabber = new FFmpegFrameGrabber(fpath.getAbsolutePath());
@@ -248,14 +248,15 @@ public class MappingWorker extends SwingWorker<Boolean, Void> {
         int[][][] data = new int[nmaps][nframes][spinelength];
         
         //loop through frames
-        count = 0;
+        int count_total = 0;        //total number of grabbed frames
+        int count = 0;              //number of grabbed frames that appear to be video frames
         double lightmean;
-        while(count < nframes){
+        while(count_total < nframes){
 
             //grab processor
             GrabProcessor();
             if(bproc == null) {
-                count++;
+                count_total++;
                 continue;
             }
             IJ.showProgress(count, nframes);
@@ -308,6 +309,7 @@ public class MappingWorker extends SwingWorker<Boolean, Void> {
             
             //count frame
             count++;
+            count_total++;
             
         }
 
